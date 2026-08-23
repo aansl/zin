@@ -1,0 +1,34 @@
+{
+  "name": "api",
+  "url": "http://localhost:3002",
+  "breaker": { "max_failures": 5, "open_timeout": "30s" },
+  "defaults": {
+    "timeout": "10s",
+    "rate_limit": { "max": 100, "per": "1m", "key": "ip" },
+    "headers": {
+      "request": { "set": { "X-Forwarded-By": "zin" } }
+    }
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "pattern": "/items",
+      "cache": { "ttl": "60s" }
+    },
+    {
+      "method": "POST",
+      "pattern": "/items",
+      "rate_limit": { "max": 10, "per": "1m", "key": "ip" }
+    },
+    {
+      "method": "GET",
+      "pattern": "/items/{id}",
+      "cache": { "ttl": "60s" }
+    },
+    {
+      "method": "GET",
+      "pattern": "/healthz",
+      "static": { "status": 200, "body": { "ok": true, "service": "api" } }
+    }
+  ]
+}

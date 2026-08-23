@@ -9,6 +9,6 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 WORKDIR /app
 COPY --from=builder /build/gateway .
-COPY config.json .
-EXPOSE 8080
-ENTRYPOINT ["./gateway"]
+COPY config ./config
+# EXPOSE 8080
+ENTRYPOINT ["./gateway", "-config", "./config"]
