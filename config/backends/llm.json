@@ -1,0 +1,24 @@
+{
+  "name": "llm",
+  "url": "http://localhost:3005",
+  "breaker": { "max_failures": 5, "open_timeout": "30s" },
+  "defaults": {
+    "timeout": "20s",
+    "rate_limit": { "max": 120, "per": "1m", "key": "ip" },
+    "headers": {
+      "request": { "set": { "X-Forwarded-By": "zin" } }
+    }
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "pattern": "/admin/llm/api/*",
+      "target": "/admin/v1/*"
+    },
+    {
+      "method": "GET",
+      "pattern": "/admin/llm/healthz",
+      "target": "/healthz"
+    }
+  ]
+}
